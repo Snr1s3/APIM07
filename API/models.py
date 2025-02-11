@@ -14,7 +14,7 @@ class Income(IncomeBase):
     id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class ExpenseBase(BaseModel):
     title: str
@@ -29,4 +29,4 @@ class Expense(ExpenseBase):
     id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True

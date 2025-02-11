@@ -6,6 +6,9 @@ import mysql.connector
 
 app = FastAPI()
 
+
+@app.get("/docs")
+
 # CRUD para Ingresos
 @app.post("/incomes/", response_model=Income)
 def create_income(income: IncomeCreate):
