@@ -10,7 +10,7 @@ app = FastAPI()
 @app.get("/docs")
 
 # CRUD para Ingresos
-@app.post("/incomes/post", response_model=Income)
+@app.post("/incomes", response_model=Income)
 def create_income(income: IncomeCreate):
     conn = get_db_connection()
     cursor = conn.cursor()
