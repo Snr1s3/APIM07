@@ -10,7 +10,7 @@ app = FastAPI()
 @app.get("/docs")
 
 # CRUD para Ingresos
-@app.post("/incomes/", response_model=Income)
+@app.post("/incomes/post", response_model=Income)
 def create_income(income: IncomeCreate):
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -51,7 +51,7 @@ def read_incomes(skip: int = 0, limit: int = 10):
     conn.close()
     return incomes
 
-@app.delete("/incomes/{income_id}", response_model=dict)
+@app.delete("/incomes/delete/{income_id}", response_model=dict)
 def delete_income(income_id: int):
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -62,7 +62,7 @@ def delete_income(income_id: int):
     return {"message": "Income deleted successfully"}
 
 # CRUD para Gastos
-@app.post("/expenses/", response_model=Expense)
+@app.post("/expenses/post/", response_model=Expense)
 def create_expense(expense: ExpenseCreate):
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -103,7 +103,7 @@ def read_expenses(skip: int = 0, limit: int = 10):
     conn.close()
     return expenses
 
-@app.delete("/expenses/{expense_id}", response_model=dict)
+@app.delete("/expenses/delete/{expense_id}", response_model=dict)
 def delete_expense(expense_id: int):
     conn = get_db_connection()
     cursor = conn.cursor()
