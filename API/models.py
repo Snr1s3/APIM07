@@ -7,6 +7,12 @@ class IncomeBase(BaseModel):
     amount: float
     date: date
 
+    @validator('date', pre=True)
+    def parse_date(cls, value):
+        if isinstance(value, str):
+            return datetime.strptime(value, '%Y-%m-%d').date()
+        return value
+
 class IncomeCreate(IncomeBase):
     pass
 
@@ -21,6 +27,12 @@ class ExpenseBase(BaseModel):
     description: str
     amount: float
     date: date
+
+    @validator('date', pre=True)
+    def parse_date(cls, value):
+        if isinstance(value, str):
+            return datetime.strptime(value, '%Y-%m-%d').date()
+        return value
 
 class ExpenseCreate(ExpenseBase):
     pass
