@@ -51,6 +51,16 @@ def read_incomes(skip: int = 0, limit: int = 10):
     conn.close()
     return incomes
 
+@app.delete("/incomes/{income_id}", response_model=dict)
+def delete_income(income_id: int):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM incomes WHERE id = %s", (income_id,))
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return {"message": "Income deleted successfully"}
+
 # CRUD para Gastos
 @app.post("/expenses/", response_model=Expense)
 def create_expense(expense: ExpenseCreate):
@@ -92,3 +102,13 @@ def read_expenses(skip: int = 0, limit: int = 10):
     cursor.close()
     conn.close()
     return expenses
+
+@app.delete("/expenses/{expense_id}", response_model=dict)
+def delete_expense(expense_id: int):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM expenses WHERE id = %s", (expense_id,))
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return {"message": "Expense deleted successfully"}
