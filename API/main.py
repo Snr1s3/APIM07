@@ -6,10 +6,7 @@ import mysql.connector
 
 app = FastAPI()
 
-
-@app.get("/docs")
-
-# CRUD para Ingresos
+# CRUD for Incomes
 @app.post("/incomes", response_model=Income)
 def create_income(income: IncomeCreate):
     conn = get_db_connection()
@@ -41,7 +38,7 @@ def read_income(income_id: int):
         raise HTTPException(status_code=404, detail="Income not found")
     return income
 
-@app.get("/incomes/", response_model=list[Income])
+@app.get("/incomes", response_model=list[Income])
 def read_incomes(skip: int = 0, limit: int = 10):
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
@@ -51,7 +48,7 @@ def read_incomes(skip: int = 0, limit: int = 10):
     conn.close()
     return incomes
 
-@app.delete("/incomes/delete/{income_id}", response_model=dict)
+@app.delete("/incomes/{income_id}", response_model=dict)
 def delete_income(income_id: int):
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -61,8 +58,8 @@ def delete_income(income_id: int):
     conn.close()
     return {"message": "Income deleted successfully"}
 
-# CRUD para Gastos
-@app.post("/expenses/post/", response_model=Expense)
+# CRUD for Expenses
+@app.post("/expenses", response_model=Expense)
 def create_expense(expense: ExpenseCreate):
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -93,7 +90,7 @@ def read_expense(expense_id: int):
         raise HTTPException(status_code=404, detail="Expense not found")
     return expense
 
-@app.get("/expenses/", response_model=list[Expense])
+@app.get("/expenses", response_model=list[Expense])
 def read_expenses(skip: int = 0, limit: int = 10):
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
@@ -103,7 +100,7 @@ def read_expenses(skip: int = 0, limit: int = 10):
     conn.close()
     return expenses
 
-@app.delete("/expenses/delete/{expense_id}", response_model=dict)
+@app.delete("/expenses/{expense_id}", response_model=dict)
 def delete_expense(expense_id: int):
     conn = get_db_connection()
     cursor = conn.cursor()
