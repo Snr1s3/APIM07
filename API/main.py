@@ -38,7 +38,7 @@ def read_income(income_id: int):
         raise HTTPException(status_code=404, detail="Income not found")
     return income
 
-@app.get("/incomes", response_model=list[Income])
+@app.get("/incomes/", response_model=list[Income])
 def read_incomes(skip: int = 0, limit: int = 10):
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
@@ -59,7 +59,7 @@ def delete_income(income_id: int):
     return {"message": "Income deleted successfully"}
 
 # CRUD for Expenses
-@app.post("/expenses", response_model=Expense)
+@app.post("/expenses/", response_model=Expense)
 def create_expense(expense: ExpenseCreate):
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -90,7 +90,7 @@ def read_expense(expense_id: int):
         raise HTTPException(status_code=404, detail="Expense not found")
     return expense
 
-@app.get("/expenses", response_model=list[Expense])
+@app.get("/expenses/", response_model=list[Expense])
 def read_expenses(skip: int = 0, limit: int = 10):
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
