@@ -7,7 +7,7 @@ import mysql.connector
 app = FastAPI()
 
 # CRUD for Incomes
-@app.post("/incomes", response_model=Income)
+@app.post("/incomes/", response_model=Income)
 def create_income(income: IncomeCreate):
     conn = get_db_connection()
     cursor = conn.cursor()
