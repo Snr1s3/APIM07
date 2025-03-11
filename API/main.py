@@ -48,6 +48,26 @@ def read_incomes(skip: int = 0, limit: int = 10):
     conn.close()
     return incomes
 
+@app.put("/incomes/{income_id}", response_model=Income)
+def update_income(income_id: int, income: IncomeCreate):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    try:
+        cursor.execute(
+            "UPDATE incomes SET title = %s, description = %s, amount = %s, date = %s WHERE id = %s",
+            (income.title, income.description, income.amount, income.date, income_id),
+        )
+        conn.commit()
+        if cursor.rowcount == 0:
+            raise HTTPException(status_code=404, detail="Income not found")
+    except mysql.connector.Error as err:
+        conn.rollback()
+        raise HTTPException(status_code=400, detail=str(err))
+    finally:
+        cursor.close()
+        conn.close()
+    return {**income.dict(), "id": income_id}
+
 @app.delete("/incomes/{income_id}", response_model=dict)
 def delete_income(income_id: int):
     conn = get_db_connection()
@@ -100,6 +120,26 @@ def read_expenses(skip: int = 0, limit: int = 10):
     conn.close()
     return expenses
 
+@app.put("/expenses/{expense_id}", response_model=Expense)
+def update_expense(expense_id: int, expense: ExpenseCreate):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    try:
+        cursor.execute(
+            "UPDATE expenses SET title = %s, description = %s, amount = %s, date = %s WHERE id = %s",
+            (expense.title, expense.description, expense.amount, expense.date, expense_id),
+        )
+        conn.commit()
+        if cursor.rowcount == 0:
+            raise HTTPException(status_code=404, detail="Expense not found")
+    except mysql.connector.Error as err:
+        conn.rollback()
+        raise HTTPException(status_code=400, detail=str(err))
+    finally:
+        cursor.close()
+        conn.close()
+    return {**expense.dict(), "id": expense_id}
+
 @app.delete("/expenses/{expense_id}", response_model=dict)
 def delete_expense(expense_id: int):
     conn = get_db_connection()
@@ -109,3 +149,4 @@ def delete_expense(expense_id: int):
     cursor.close()
     conn.close()
     return {"message": "Expense deleted successfully"}
+
