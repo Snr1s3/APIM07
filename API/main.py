@@ -162,14 +162,14 @@ def login(username: str, password: str):
         raise HTTPException(status_code=401, detail="Invalid credentials")
     return {user["id"]}
 
-@app.get("/register/")
-def register(username: str, password: str):
+@app.post("/register/")
+def register(username: str, email: str, password: str):
     conn = get_db_connection()
     cursor = conn.cursor()
     try:
         cursor.execute(
-            "INSERT INTO users (username, password) VALUES (%s, %s)",
-            (username, password),
+            "INSERT INTO users (username, email, password) VALUES (%s, %s, %s)",
+            (username, email, password),
         )
         conn.commit()
         user_id = cursor.lastrowid
@@ -179,4 +179,4 @@ def register(username: str, password: str):
     finally:
         cursor.close()
         conn.close()
-    return {"message": "User registered successfully", "user_id": user_id}
+    return {"user_id": user_id}

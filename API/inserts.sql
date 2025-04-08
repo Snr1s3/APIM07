@@ -25,3 +25,8 @@ INSERT INTO expenses (title, description, amount, date) VALUES
 ('Clothing', 'New clothes', 200.00, '2023-02-10'),
 ('Subscription', 'Monthly subscription', 30.00, '2023-02-15'),
 ('Maintenance', 'Car maintenance', 250.00, '2023-02-20');
+
+INSERT INTO users (username, mail, password) VALUES
+('dani', 'dani@dani.dani', 'dani'),
+('karolayn', 'karolayn@karolayn.karolayn', 'karolayn'),
+('alba', 'alba@alba.alba', 'alba');
