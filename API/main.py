@@ -150,3 +150,33 @@ def delete_expense(expense_id: int):
     conn.close()
     return {"message": "Expense deleted successfully"}
 
+@app.get("/login/")
+def login(username: str, password: str):
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT id FROM users WHERE username = %s AND password = %s", (username, password))
+    user = cursor.fetchone()
+    cursor.close()
+    conn.close()
+    if not user:
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+    return {user["id"]}
+
+@app.get("/register/")
+def register(username: str, password: str):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    try:
+        cursor.execute(
+            "INSERT INTO users (username, password) VALUES (%s, %s)",
+            (username, password),
+        )
+        conn.commit()
+        user_id = cursor.lastrowid
+    except mysql.connector.Error as err:
+        conn.rollback()
+        raise HTTPException(status_code=400, detail=str(err))
+    finally:
+        cursor.close()
+        conn.close()
+    return {"message": "User registered successfully", "user_id": user_id}
