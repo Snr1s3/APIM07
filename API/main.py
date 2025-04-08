@@ -168,7 +168,7 @@ def register(username: str, email: str, password: str):
     cursor = conn.cursor()
     try:
         cursor.execute(
-            "INSERT INTO users (username, email, password) VALUES (%s, %s, %s)",
+            "INSERT INTO users (username, mail, password) VALUES (%s, %s, %s)",
             (username, email, password),
         )
         conn.commit()
